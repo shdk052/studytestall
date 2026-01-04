@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Hub - Grade 8 Preparation</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --white: #ffffff;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar & Mobile Menu */
+        nav {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 2px;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: none; /* Switch via JS */
+        }
+
+        section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Past Simple Styling */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .rule-item {
+            border-right: 4px solid var(--primary-color);
+            padding: 1rem;
+            background: #f1f5f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            direction: ltr; /* English tables */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Vocabulary Practice */
+        .word-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .word-en { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); }
+        .word-he { font-size: 1.5rem; color: #64748b; margin-top: 0.5rem; display: none; }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: var(--secondary-color); }
+        .btn-accent { background: var(--accent-color); color: white; }
+
+        /* Quiz Styling */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: right;
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover { background: #f1f5f9; }
+        .quiz-option.correct { background: #dcfce7; border-color: var(--success); }
+        .quiz-option.wrong { background: #fee2e2; border-color: var(--danger); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: var(--primary-color);
+                padding: 1rem;
+                text-align: center;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        .unseen-text {
+            background: #fff;
+            padding: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            margin-bottom: 2rem;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            direction: ltr;
+        }
+
+        .writing-area {
+            width: 100%;
+            height: 200px;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            direction: ltr;
+            font-size: 1rem;
+        }
+
+        #feedback-box {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">ENGLISH HUB 8</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a onclick="showSection('home')">בית</a></li>
+            <li><a onclick="showSection('grammar')">דקדוק (Past Simple)</a></li>
+            <li><a onclick="showSection('vocab')">אוצר מילים</a></li>
+            <li><a onclick="showSection('unseen')">אנסין</a></li>
+            <li><a onclick="showSection('writing')">כתיבה</a></li>
+            <li><a onclick="showSection('mock-test')">מבחן לדוגמה</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="active">
+        <div class="card" style="text-align: center;">
+            <h1>ברוכים הבאים למרכז הלמידה לאנגלית! 🚀</h1>
+            <p>האתר הזה נועד לעזור לכם להתכונן למבחן באנגלית לכיתה ח'. כאן תמצאו את כל מה שצריך: חוקי Past Simple, רשימת פעלים חריגים, אוצר מילים, תרגול אנסין ומבחן דמיה מלא.</p>
+            <br>
+            <button class="btn btn-primary" onclick="showSection('grammar')">בואו נתחיל בדקדוק</button>
+        </div>
+    </section>
+
+    <!-- Grammar Section -->
+    <section id="grammar">
+        <h2>Past Simple - עבר פשוט</h2>
+        
+        <div class="card">
+            <h3>כללי הוספת ed (פעלים רגילים)</h3>
+            <div class="rules-grid">
+                <div class="rule-item">
+                    <strong>הכלל הרגיל:</strong> מוסיפים <b>ed</b> לפועל.<br>
+                    <em>Example: walk → walked</em>
+                </div>
+                <div class="rule-item">
+                    <strong>פועל המסתייים ב-e:</strong> מוסיפים רק <b>d</b>.<br>
+                    <em>Example: smile → smiled</em>
+                </div>
+                <div class="rule-item">
+                    <strong>פועל המסתייים ב-y (לפניו עיצור):</strong> מחליפים ב-<b>ied</b>.<br>
+                    <em>Example: cry → cried</em>
+                </div>
+                <div class="rule-item">
+                    <strong>CVC (עיצור-תנועה-עיצור):</strong> מכפילים את האות האחרונה.<br>
+                    <em>Example: stop → stopped</em>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Irregular Verbs - פעלים חריגים</h3>
+            <p>אלו פעלים שלא מקבלים ed, אלא משנים את צורתם לגמרי. יש לשנן אותם!</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Base Form (V1)</th>
+                        <th>Past Simple (V2)</th>
+                        <th>Hebrew Meaning</th>
+                    </tr>
+                </thead>
+                <tbody id="irregularTable">
+                    <!-- Data from sources -->
+                    <tr><td>Go</td><td>Went</td><td>הלך</td></tr>
+                    <tr><td>See</td><td>Saw</td><td>ראה</td></tr>
+                    <tr><td>Eat</td><td>Ate</td><td>אכל</td></tr>
+                    <tr><td>Drink</td><td>Drank</td><td>שתה</td></tr>
+                    <tr><td>Do</td><td>Did</td><td>עשה</td></tr>
+                    <tr><td>Have</td><td>Had</td><td>יש לו/היה לו</td></tr>
+                    <tr><td>Come</td><td>Came</td><td>בא</td></tr>
+                    <tr><td>Buy</td><td>Bought</td><td>קנה</td></tr>
+                    <tr><td>Write</td><td>Wrote</td><td>כתב</td></tr>
+                    <tr><td>Speak</td><td>Spoke</td><td>דיבר</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Vocabulary Section -->
+    <section id="vocab">
+        <h2>אוצר מילים - Vocabulary</h2>
+        <div class="card word-card">
+            <div id="wordDisplay" class="word-en">Loading...</div>
+            <div id="hebrewDisplay" class="word-he">תרגום</div>
+            <div style="margin-top: 2rem;">
+                <button class="btn btn-accent" onclick="revealHebrew()">הצג תרגום</button>
+                <button class="btn btn-primary" onclick="nextWord()">מילה הבאה</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>מבחן אוצר מילים מהיר</h3>
+            <div id="vocabQuiz">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Unseen Section -->
+    <section id="unseen">
+        <h2>Unseen Practice - תרגול אנסין</h2>
+        <div class="card">
+            <div class="unseen-text">
+                <h3>The Importance of Sleep</h3>
+                <p>Many students stay up late at night to play computer games or talk to friends. However, sleep is very important for our health. Doctors say that teenagers need at least 8 to 9 hours of sleep every night. When we don't sleep enough, we feel tired and it is hard to listen in class. Also, our brain needs sleep to remember what we learned during the day. Last week, a study showed that students who slept more got better grades on their English tests.</p>
+            </div>
+            
+            <div class="quiz-q">
+                <p>1. Why do many students stay up late?</p>
+                <div class="quiz-option" onclick="checkAns(this, true)">To play games or talk to friends.</div>
+                <div class="quiz-option" onclick="checkAns(this, false)">To study for English tests.</div>
+                <div class="quiz-option" onclick="checkAns(this, false)">To go to the doctor.</div>
+            </div>
+            <br>
+            <div class="quiz-q">
+                <p>2. How many hours of sleep do teenagers need?</p>
+                <input type="text" class="writing-area" style="height: 50px;" placeholder="Write your answer here...">
+            </div>
+        </div>
+    </section>
+
+    <!-- Writing Section -->
+    <section id="writing">
+        <h2>Writing Task - משימת כתיבה</h2>
+        <div class="card">
+            <h3>Task: My Last Summer Vacation</h3>
+            <p>Write a paragraph (50-70 words) about your last summer vacation. Use the <b>Past Simple</b>. </p>
+            <p>Include: Where you went, who you were with, and what you did.</p>
+            <textarea class="writing-area" id="writingInput" placeholder="Last summer, I went to..."></textarea>
+            <div style="margin-top: 1rem;">
+                <button class="btn btn-primary" onclick="checkWriting()">שלח לבדיקה (סימולציה)</button>
+            </div>
+            <p id="writingFeedback"></p>
+        </div>
+    </section>
+
+    <!-- Mock Test Section -->
+    <section id="mock-test">
+        <h2>מבחן לדוגמה (Mock Test)</h2>
+        <div class="card" id="mockContent">
+            <p>מבחן זה משלב את כל הנושאים שלמדתם.</p>
+            <button class="btn btn-accent" onclick="startMockTest()">התחל מבחן דמיה</button>
+        </div>
+        <div id="actualMockTest" style="display:none;">
+            <!-- Mock test content will be injected here -->
+        </div>
+    </section>
+
+    <script>
+        // --- DATA ---
+        const vocabulary = [
+            {en: "Improve", he: "לשפר"},
+            {en: "Decision", he: "החלטה"},
+            {en: "Environment", he: "סביבה"},
+            {en: "Success", he: "הצלחה"},
+            {en: "Believe", he: "להאמין"},
+            {en: "Research", he: "מחקר"},
+            {en: "Important", he: "חשוב"},
+            {en: "Teenager", he: "מתבגר"},
+            {en: "Challenge", he: "אתגר"},
+            {en: "Experience", he: "חוויה/ניסיון"}
+        ];
+
+        let currentWordIndex = 0;
+
+        // --- NAVIGATION ---
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if (window.innerWidth <= 768) {
+                toggleMenu();
+            }
+            window.scrollTo(0, 0);
+            
+            if(id === 'vocab') initVocab();
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+
+        // --- VOCABULARY LOGIC ---
+        function initVocab() {
+            nextWord();
+            renderVocabQuiz();
+        }
+
+        function nextWord() {
+            currentWordIndex = Math.floor(Math.random() * vocabulary.length);
+            document.getElementById('wordDisplay').innerText = vocabulary[currentWordIndex].en;
+            document.getElementById('hebrewDisplay').innerText = vocabulary[currentWordIndex].he;
+            document.getElementById('hebrewDisplay').style.display = 'none';
+        }
+
+        function revealHebrew() {
+            document.getElementById('hebrewDisplay').style.display = 'block';
+        }
+
+        function renderVocabQuiz() {
+            const container = document.getElementById('vocabQuiz');
+            const word = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+            let html = `<p>מה התרגום של המילה: <b>${word.en}</b>?</p>`;
+            
+            // Generate options
+            let options = [word.he];
+            while(options.length < 3) {
+                let randomHe = vocabulary[Math.floor(Math.random() * vocabulary.length)].he;
+                if(!options.includes(randomHe)) options.push(randomHe);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                html += `<div class="quiz-option" onclick="checkVocabAns(this, '${opt}', '${word.he}')">${opt}</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function checkVocabAns(el, selected, correct) {
+            if(selected === correct) {
+                el.classList.add('correct');
+                setTimeout(renderVocabQuiz, 1000);
+            } else {
+                el.classList.add('wrong');
+            }
+        }
+
+        // --- GRAMMAR/UNSEEN LOGIC ---
+        function checkAns(el, isCorrect) {
+            if(isCorrect) el.classList.add('correct');
+            else el.classList.add('wrong');
+        }
+
+        // --- WRITING LOGIC ---
+        function checkWriting() {
+            const text = document.getElementById('writingInput').value;
+            const feedback = document.getElementById('writingFeedback');
+            if(text.length < 20) {
+                feedback.innerText = "הטקסט קצר מדי. נסו לכתוב לפחות 3-4 משפטים.";
+                feedback.style.color = "orange";
+            } else {
+                feedback.innerText = "כל הכבוד! בדקו שהשתמשתם בפעלים בעבר (כמו went, saw, stayed, had).";
+                feedback.style.color = "green";
+            }
+        }
+
+        // --- MOCK TEST ---
+        function startMockTest() {
+            const mock = document.getElementById('actualMockTest');
+            document.getElementById('mockContent').style.display = 'none';
+            mock.style.display = 'block';
+            
+            mock.innerHTML = `
+                <div class="card">
+                    <h3>Part A: Unseen (25 points)</h3>
+                    <p>Read the text in the "Unseen" section and answer:</p>
+                    <p>What happens to our brain when we sleep? <input type="text" class="writing-area" style="height:40px;"></p>
+                </div>
+                <div class="card">
+                    <h3>Part B: Grammar - Past Simple (25 points)</h3>
+                    <p>1. Yesterday, I (go) <input type="text" style="padding:5px;" placeholder="went"> to the park.</p>
+                    <p>2. She (watch) <input type="text" style="padding:5px;" placeholder="watched"> a movie last night.</p>
+                </div>
+                <div class="card">
+                    <h3>Part C: Vocabulary (25 points)</h3>
+                    <p>Match "Improve" to: <br>
+                    <button class="btn btn-primary">לשפר</button> <button class="btn btn-primary">לשכוח</button></p>
+                </div>
+                <button class="btn btn-accent" onclick="location.reload()">סיים מבחן וחזור לדף הבית</button>
+            `;
+        }
+    </script>
+</body>
+</html>
