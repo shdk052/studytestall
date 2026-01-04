@@ -2,8 +2,8 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Hub - Premium Dark Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Hub - Mobile Optimized</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
@@ -17,17 +17,19 @@
             --white: #ffffff;
             --success: #10b981;
             --danger: #ef4444;
-            --glass: rgba(30, 41, 59, 0.7);
+            --glass: rgba(30, 41, 59, 0.95);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Assistant', sans-serif;
+            background: #020617;
             background: linear-gradient(135deg, var(--primary-dark) 0%, #020617 100%);
             color: var(--text-main);
             line-height: 1.6;
@@ -35,196 +37,187 @@
             overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* Navigation - Mobile Optimized */
         nav {
             background: var(--glass);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             color: var(--white);
-            padding: 1rem 2rem;
+            padding: 0 1.2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 2000;
+            height: 70px;
         }
 
         .logo { 
-            font-size: 1.6rem; 
+            font-size: 1.2rem; 
             font-weight: 800; 
             background: linear-gradient(to left, var(--accent-turquoise), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
         }
 
-        .nav-links { display: flex; gap: 1.2rem; list-style: none; }
+        .hamburger { 
+            display: flex; 
+            flex-direction: column; 
+            cursor: pointer; 
+            gap: 6px; 
+            padding: 10px;
+        }
+        .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        .nav-links { 
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            height: 100vh;
+            background: var(--secondary-dark);
+            flex-direction: column;
+            padding: 80px 1.5rem;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            z-index: 1050;
+            display: flex;
+            list-style: none;
+        }
+        .nav-links.show { right: 0; }
         .nav-links a { 
-            color: var(--text-muted); 
+            color: var(--text-main); 
             text-decoration: none; 
             font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            font-size: 1.2rem; 
+            display: block; 
+            padding: 1rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
         }
-        .nav-links a:hover { 
-            color: var(--accent-turquoise); 
-            background: rgba(45, 212, 191, 0.1);
-        }
-        .nav-links a.active-nav {
-            color: var(--accent-turquoise);
-            border-bottom: 2px solid var(--accent-turquoise);
-        }
+        .nav-links a.active-nav { color: var(--accent-turquoise); background: rgba(45, 212, 191, 0.1); }
 
-        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
-        .hamburger span { width: 25px; height: 2px; background: white; }
+        /* Sections and Cards */
+        section { padding: 1.5rem 1rem; max-width: 1000px; margin: 0 auto; display: none; }
+        section.active { display: block; animation: fadeIn 0.4s ease; }
 
-        /* Content Sections */
-        section { padding: 3rem 1.5rem; max-width: 1100px; margin: 0 auto; display: none; }
-        section.active { display: block; animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { 
             background: var(--secondary-dark); 
-            padding: 2.5rem; 
+            padding: 1.2rem; 
             border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-            margin-bottom: 2.5rem; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2); 
+            margin-bottom: 1.2rem; 
             border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease;
         }
 
-        h1, h2, h3 { color: var(--accent-turquoise); margin-bottom: 1.5rem; }
-        p { color: var(--text-muted); margin-bottom: 1rem; }
+        h1 { font-size: 1.8rem; margin-bottom: 1rem; line-height: 1.2; }
+        h2 { font-size: 1.4rem; color: var(--accent-turquoise); margin-bottom: 1rem; border-right: 4px solid var(--accent-turquoise); padding-right: 10px; }
+        h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+        p { color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; }
 
-        .grammar-rule { 
-            background: rgba(15, 23, 42, 0.5); 
-            border-right: 4px solid var(--accent-blue); 
-            padding: 1.5rem; 
-            margin-bottom: 1.5rem; 
-            border-radius: 12px; 
+        /* Tables */
+        .table-container { 
+            width: 100%; 
+            overflow-x: auto; 
+            border-radius: 12px;
+            background: rgba(0,0,0,0.2);
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
         }
-        .grammar-rule strong { color: var(--accent-blue); display: block; margin-bottom: 0.5rem; font-size: 1.1rem; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; direction: ltr; background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; }
-        th, td { border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; min-width: 450px; direction: ltr; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
         th { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); font-weight: 700; }
-        tr:hover { background: rgba(255,255,255,0.02); }
-
         .dictionary-table { direction: rtl; }
         .dictionary-table th, .dictionary-table td { text-align: right; }
 
         /* Buttons */
         .btn { 
-            padding: 1rem 2rem; 
+            width: 100%;
+            padding: 1.1rem; 
             border: none; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             cursor: pointer; 
             font-weight: 700; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            display: inline-block; 
-            margin: 8px;
+            font-size: 1rem;
+            transition: 0.2s; 
+            margin-bottom: 10px;
+            text-align: center;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
         }
-        .btn-primary { background: linear-gradient(45deg, var(--accent-blue), #1d4ed8); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .btn-accent { background: linear-gradient(45deg, var(--accent-turquoise), #0d9488); color: white; box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4); }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
-        .btn:active { transform: translateY(0); }
+        .btn-primary { background: linear-gradient(45deg, var(--accent-blue), #1d4ed8); color: white; }
+        .btn-accent { background: linear-gradient(45deg, var(--accent-turquoise), #0d9488); color: white; }
 
-        .writing-area { 
+        /* Inputs */
+        .unseen-input, .writing-area { 
             width: 100%; 
-            min-height: 180px; 
-            padding: 1.2rem; 
+            padding: 1rem; 
             background: #0f172a;
             border: 2px solid rgba(255,255,255,0.1); 
             color: white;
-            border-radius: 12px; 
-            direction: ltr; 
-            font-size: 17px; 
-            margin-top: 15px; 
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .writing-area:focus { border-color: var(--accent-turquoise); }
-        
-        /* Feedback Box */
-        .feedback-box { 
-            margin-top: 2rem; 
-            padding: 2rem; 
             border-radius: 15px; 
-            display: none; 
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            font-size: 1rem; 
+            margin-top: 10px;
+            outline: none;
         }
-        .feedback-success { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: var(--success); }
-        .feedback-warning { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border-color: var(--accent-color); }
-
-        .result-item { margin-bottom: 0.8rem; padding: 12px 18px; border-radius: 10px; border-right: 4px solid transparent; }
-        .result-correct { background-color: rgba(16, 185, 129, 0.1); color: #6ee7b7; border-right-color: var(--success); }
-        .result-wrong { background-color: rgba(239, 68, 68, 0.1); color: #fca5a5; border-right-color: var(--danger); }
-
-        /* Unseen Box */
-        .unseen-box { 
-            background: #0f172a; 
-            padding: 2.5rem; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-right: 6px solid var(--accent-turquoise); 
-            direction: ltr; 
-            margin-bottom: 2.5rem; 
-            font-size: 1.15rem; 
-            line-height: 2;
-            border-radius: 0 15px 15px 0;
-            color: #cbd5e1;
-        }
-        .unseen-box h3 { text-align: center; color: var(--accent-turquoise); margin-bottom: 2rem; letter-spacing: 2px; }
-        .unseen-input { 
-            width: 100%; 
-            padding: 12px; 
-            background: #020617;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 8px; 
-            margin-top: 8px; 
-            direction: ltr; 
-            transition: 0.3s;
-        }
-        .unseen-input:focus { border-color: var(--accent-blue); outline: none; }
+        .writing-area { min-height: 150px; }
 
         /* Flashcards */
         #flashcard {
-            height: 200px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 2px dashed rgba(255,255,255,0.1);
-            cursor: pointer;
-            transition: 0.5s ease;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
-        #flashcard:hover { border-color: var(--accent-turquoise); transform: scale(1.02); }
 
-        @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; width: 100%; background: var(--secondary-dark); padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-            .nav-links.show { display: flex; }
-            .hamburger { display: flex; }
-            section { padding: 1.5rem 1rem; }
-            .card { padding: 1.5rem; }
+        /* Unseen Text Box */
+        .unseen-box { 
+            background: #0f172a; 
+            padding: 1.2rem; 
+            border-right: 5px solid var(--accent-turquoise); 
+            direction: ltr; 
+            font-size: 1.05rem; 
+            line-height: 1.8;
+            border-radius: 15px;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
         }
+
+        /* Test Progress */
+        .test-part-header { 
+            background: rgba(59, 130, 246, 0.1); 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 1.2rem;
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .feedback-box { padding: 1.2rem; border-radius: 15px; margin-top: 1.2rem; display: none; }
+        .feedback-success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: #6ee7b7; }
+        .feedback-warning { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: #fca5a5; }
+
+        .result-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">ENGLISH MASTER</div>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
         <ul class="nav-links" id="navLinks">
             <li><a onclick="showSection('home')" id="link-home">בית</a></li>
             <li><a onclick="showSection('grammar')" id="link-grammar">דקדוק</a></li>
@@ -233,43 +226,36 @@
             <li><a onclick="showSection('writing')" id="link-writing">כתיבה</a></li>
             <li><a onclick="showSection('mock-test')" id="link-mock-test">מבחן מלא</a></li>
         </ul>
-        <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     </nav>
 
     <!-- Home Section -->
     <section id="home" class="active">
-        <div class="card" style="text-align: center; background: radial-gradient(circle at top, rgba(59, 130, 246, 0.1) 0%, transparent 70%);">
-            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">כבוש את האנגלית 🚀</h1>
-            <p style="font-size: 1.2rem; color: var(--text-main);">מרכז הלמידה המתקדם לכיתה ח'. כל מה שצריך למצוינות.</p>
-            <div style="margin-top: 3rem;">
-                <button class="btn btn-primary" onclick="showSection('vocab')">למד מילים חדשות</button>
-                <button class="btn btn-accent" onclick="showSection('mock-test')">גש למבחן המלא</button>
+        <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+            <h1>הצלחה באנגלית מתחילה כאן 🚀</h1>
+            <p>מרכז למידה אינטראקטיבי המותאם אישית למבחן שלך. כל החומר במקום אחד.</p>
+            <div style="margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="showSection('mock-test')">התחל מבחן מלא</button>
+                <button class="btn btn-accent" onclick="showSection('vocab')">תרגל אוצר מילים</button>
             </div>
         </div>
     </section>
 
     <!-- Grammar Section -->
     <section id="grammar">
-        <h2>Past Simple - זמני העבר</h2>
+        <h2>Past Simple - עבר פשוט</h2>
         <div class="card">
             <h3>חוקי הוספת ED</h3>
-            <div class="grammar-rule">
-                <strong>1. הכלל הרגיל:</strong> הוספת <b>ed</b> לדוגמה: <i>walked, played</i>.
-            </div>
-            <div class="grammar-rule">
-                <strong>2. סיומת E:</strong> מוסיפים רק <b>d</b> לדוגמה: <i>smiled, danced</i>.
-            </div>
-            <div class="grammar-rule">
-                <strong>3. סיומת Y:</strong> אם יש עיצור לפני ה-y, מחליפים ל-<b>ied</b> לדוגמה: <i>studied, cried</i>.
-            </div>
-            <div class="grammar-rule">
-                <strong>4. כלל CVC:</strong> הכפלת האות האחרונה לדוגמה: <i>stopped, planned</i>.
-            </div>
+            <p>1. <b>הכלל הרגיל:</b> מוסיפים <b>ed</b> (למשל: walked).</p>
+            <p>2. <b>סיומת E:</b> מוסיפים רק <b>d</b> (למשל: danced).</p>
+            <p>3. <b>סיומת Y:</b> אם יש עיצור לפני ה-y, מחליפים ל-<b>ied</b> (למשל: studied).</p>
+            <p>4. <b>CVC:</b> מכפילים את האות האחרונה (למשל: stopped).</p>
+        </div>
 
-            <h3 style="margin-top: 3rem;">Irregular Verbs (V2)</h3>
-            <div style="max-height: 500px; overflow-y: auto; scrollbar-width: thin;">
+        <div class="card">
+            <h3>Irregular Verbs (V2) - פעלים חריגים</h3>
+            <div class="table-container">
                 <table>
-                    <thead><tr><th>Base Form</th><th>Past Simple</th><th>Translation</th></tr></thead>
+                    <thead><tr><th>Base Form</th><th>Past Simple</th><th>Hebrew</th></tr></thead>
                     <tbody id="grammarIrregulars"></tbody>
                 </table>
             </div>
@@ -278,99 +264,102 @@
 
     <!-- Vocabulary Section -->
     <section id="vocab">
-        <h2>מילון אוצר מילים</h2>
-        <div class="card" style="text-align: center;">
-            <div id="flashcard" class="card" onclick="toggleTranslation()">
-                <h1 id="vocabWord" style="font-size: 3.5rem; margin: 0;">...</h1>
-                <p id="vocabTranslation" style="font-size: 2rem; color: var(--accent-turquoise); display: none; margin: 0;">...</p>
-            </div>
-            <p>לחץ על הכרטיסייה כדי לראות את התרגום</p>
-            <button class="btn btn-primary" onclick="nextFlashcard()">מילה הבאה</button>
+        <h2>Flashcards - כרטיסיות</h2>
+        <div id="flashcard" onclick="toggleTranslation()">
+            <h1 id="vocabWord">...</h1>
+            <p id="vocabTranslation" style="display: none;">...</p>
         </div>
+        <button class="btn btn-primary" onclick="nextFlashcard()">מילה הבאה</button>
         
-        <div class="card">
-            <table class="dictionary-table">
-                <thead><tr><th>המילה באנגלית</th><th>התרגום</th></tr></thead>
-                <tbody id="vocabListFull"></tbody>
-            </table>
+        <div class="card" style="margin-top: 2rem;">
+            <h3>רשימת מילים מלאה</h3>
+            <div class="table-container">
+                <table class="dictionary-table">
+                    <thead><tr><th>באנגלית</th><th>בעברית</th></tr></thead>
+                    <tbody id="vocabListFull"></tbody>
+                </table>
+            </div>
         </div>
     </section>
 
-    <!-- Unseen Section -->
+    <!-- Unseen Section (Practice) -->
     <section id="unseen">
-        <h2>בדיקת הבנת הנקרא</h2>
+        <h2>Unseen Practice - תרגול קצר</h2>
         <div class="card">
             <div class="unseen-box">
-                <h3>A Special Invention</h3>
-                <p>Last year, Maya had a great <b>experience</b>. She wanted to <b>design</b> a special mask for her grandmother. Maya <b>assumed</b> it would be difficult to <b>invent</b> something new, but she had <b>plenty of</b> ideas. <b>Despite</b> the fact that she was young, she <b>spoke</b> to her teacher and <b>convinced</b> him to help her. Her teacher <b>offered</b> her a <b>clear</b> plan. Maya <b>made</b> the mask and it was <b>essential</b> for her grandmother's health. Maya felt <b>positive</b> and happy.</p>
+                <h3 style="text-align: center; color: var(--accent-turquoise);">A Special Invention</h3>
+                Last year, Maya had a great <b>experience</b>. She wanted to <b>design</b> a special mask for her grandmother. Maya <b>assumed</b> it would be difficult to <b>invent</b> something new, but she had <b>plenty of</b> ideas. <b>Despite</b> her age, she <b>spoke</b> to her teacher and <b>convinced</b> him to help. Her teacher <b>offered</b> a <b>clear</b> plan. Maya <b>made</b> the mask and it was <b>essential</b> for her grandmother's health.
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.2); padding: 1.2rem; border-radius: 15px;">
+                <p style="direction: ltr; text-align: left; font-weight: 700; color: white;">Who did Maya talk to for help with her invention?</p>
+                <input type="text" id="unseenPracticeInput" class="unseen-input" placeholder="Enter your answer...">
+                <button class="btn btn-accent" style="margin-top: 15px;" onclick="checkUnseenPractice()">בדוק תשובה</button>
+                <div id="unseenPracticeFeedback" class="feedback-box"></div>
             </div>
         </div>
     </section>
 
     <!-- Writing Section -->
     <section id="writing">
-        <h2>משימת כתיבה יצירתית</h2>
+        <h2>Writing - כתיבה</h2>
         <div class="card">
-            <h3>Writing Task: A Special Day</h3>
-            <p>Write 60-80 words about a special experience you had. Use at least 4 irregular verbs and correct grammar.</p>
-            <textarea id="writingPractice" class="writing-area" placeholder="Start writing your story here..."></textarea>
-            <button class="btn btn-accent" onclick="checkWriting('writingPractice', 'writingFeedback')">בדוק כתיבה</button>
+            <h3>משימה: יום מיוחד</h3>
+            <p>כתוב 60-80 מילים על חוויה מיוחדת שהייתה לך. השתמש ב-4 פעלים לפחות בזמן עבר (V2).</p>
+            <textarea id="writingPractice" class="writing-area" placeholder="Write your story here..."></textarea>
+            <button class="btn btn-primary" onclick="checkWriting()">שלח לבדיקה</button>
             <div id="writingFeedback" class="feedback-box"></div>
         </div>
     </section>
 
     <!-- FULL MOCK TEST -->
     <section id="mock-test">
-        <h1 style="text-align: center; font-size: 2.5rem;">The Final Exam 🏆</h1>
+        <h1 style="text-align: center;">מבחן מלא - Final Mock Exam</h1>
         
-        <!-- Part 1: Unseen -->
         <div class="card">
-            <h3 style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem;">PART 1: READING COMPREHENSION (30 PTS)</h3>
+            <div class="test-part-header"><h3>Part 1: Reading Comprehension (30 pts)</h3></div>
             <div class="unseen-box">
-                <p>David is a student who loves <b>literature</b>. Last week, he <b>spoke</b> to his friend about a <b>secret</b> book. He <b>assumed</b> his friend would like it, but his friend <b>refused</b> to read it because he was busy. <b>Despite</b> this, David <b>convinced</b> him that the book provides a great <b>experience</b>. David <b>offered</b> to give him the book for free. <b>Somehow</b>, his friend changed his mind and <b>read</b> it. He felt <b>positive</b> about the story and thanked David.</p>
+                David is a student who loves <b>literature</b>. Last week, he <b>spoke</b> to his friend about a <b>secret</b> book. He <b>assumed</b> his friend would like it, but his friend <b>refused</b> to read it because he was busy. <b>Despite</b> this, David <b>convinced</b> him that the book provides a great <b>experience</b>. David <b>offered</b> to give him the book for free. <b>Somehow</b>, his friend changed his mind and <b>read</b> it. He felt <b>positive</b> about the story.
             </div>
-            <div class="unseen-question">
-                <p>1. What subject does David love most? (10 pts)</p>
-                <input type="text" class="unseen-input" id="mq1">
+            <div style="margin-bottom: 1.5rem;">
+                <p style="direction: ltr; text-align: left;">1. What does David love? (10 pts)</p>
+                <input type="text" id="mq1" class="unseen-input">
             </div>
-            <div class="unseen-question">
-                <p>2. Why did the friend say NO to the book at first? (10 pts)</p>
-                <input type="text" class="unseen-input" id="mq2">
+            <div style="margin-bottom: 1.5rem;">
+                <p style="direction: ltr; text-align: left;">2. Why did the friend say NO at first? (10 pts)</p>
+                <input type="text" id="mq2" class="unseen-input">
             </div>
-            <div class="unseen-question">
-                <p>3. How did the story make the friend feel? (10 pts)</p>
-                <input type="text" class="unseen-input" id="mq3">
+            <div style="margin-bottom: 1.5rem;">
+                <p style="direction: ltr; text-align: left;">3. How did the story make the friend feel? (10 pts)</p>
+                <input type="text" id="mq3" class="unseen-input">
             </div>
         </div>
 
-        <!-- Part 2: Vocabulary -->
         <div class="card">
-            <h3 style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem;">PART 2: VOCABULARY MASTERY (20 PTS)</h3>
-            <p>1. Essential (HE): <input type="text" id="mv1" class="unseen-input" style="width: 200px; display: inline-block;"></p>
-            <p>2. Breathe (HE): <input type="text" id="mv2" class="unseen-input" style="width: 200px; display: inline-block;"></p>
-            <p>3. Despite (HE): <input type="text" id="mv3" class="unseen-input" style="width: 200px; display: inline-block;"></p>
-            <p>4. להניח (EN): <input type="text" id="mv4" class="unseen-input" style="width: 200px; display: inline-block;"></p>
-            <p>5. סוד (EN): <input type="text" id="mv5" class="unseen-input" style="width: 200px; display: inline-block;"></p>
+            <div class="test-part-header"><h3>Part 2: Vocabulary (20 pts)</h3></div>
+            <p>1. Essential (תרגם לעברית): <input type="text" id="mv1" class="unseen-input"></p>
+            <p>2. Breathe (תרגם לעברית): <input type="text" id="mv2" class="unseen-input"></p>
+            <p>3. להניח (תרגם לאנגלית): <input type="text" id="mv3" class="unseen-input"></p>
+            <p>4. סוד (תרגם לאנגלית): <input type="text" id="mv4" class="unseen-input"></p>
+            <p>5. Despite (תרגם לעברית): <input type="text" id="mv5" class="unseen-input"></p>
         </div>
 
-        <!-- Part 3: Grammar -->
         <div class="card">
-            <h3 style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem;">PART 3: PAST SIMPLE GRAMMAR (25 PTS)</h3>
-            <p>1. I (see) <input type="text" id="mg1" class="unseen-input" style="width: 150px; display: inline-block;"> a movie.</p>
-            <p>2. They (win) <input type="text" id="mg2" class="unseen-input" style="width: 150px; display: inline-block;"> the cup.</p>
-            <p>3. She (study) <input type="text" id="mg3" class="unseen-input" style="width: 150px; display: inline-block;"> all night.</p>
-            <p>4. We (go) <input type="text" id="mg4" class="unseen-input" style="width: 150px; display: inline-block;"> to London.</p>
-            <p>5. He (stop) <input type="text" id="mg5" class="unseen-input" style="width: 150px; display: inline-block;"> the game.</p>
+            <div class="test-part-header"><h3>Part 3: Grammar (25 pts)</h3></div>
+            <p>1. I (see) <input type="text" id="mg1" class="unseen-input" style="width: 150px; display: inline-block;"> a big dog yesterday.</p>
+            <p>2. They (win) <input type="text" id="mg2" class="unseen-input" style="width: 150px; display: inline-block;"> the match last night.</p>
+            <p>3. She (study) <input type="text" id="mg3" class="unseen-input" style="width: 150px; display: inline-block;"> hard for the test.</p>
+            <p>4. We (go) <input type="text" id="mg4" class="unseen-input" style="width: 150px; display: inline-block;"> to the park.</p>
+            <p>5. He (stop) <input type="text" id="mg5" class="unseen-input" style="width: 150px; display: inline-block;"> the car.</p>
         </div>
 
-        <!-- Part 4: Writing -->
         <div class="card">
-            <h3 style="border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem;">PART 4: WRITING PERFORMANCE (25 PTS)</h3>
-            <p>Write about a trip you took. Use at least 3 irregular verbs. (50-70 words)</p>
+            <div class="test-part-header"><h3>Part 4: Writing (25 pts)</h3></div>
+            <p>Write about a trip you took (50-70 words). Use at least 3 V2 verbs.</p>
             <textarea id="mtWriting" class="writing-area"></textarea>
         </div>
 
-        <button class="btn btn-accent" style="width:100%; height: 60px; font-size: 1.2rem;" onclick="gradeFullTest()">סיים והצג ציון מלא</button>
+        <button class="btn btn-accent" style="height: 60px;" onclick="gradeFullTest()">סיים וחשב ציון מלא</button>
         <div id="finalTestFeedback" class="feedback-box"></div>
     </section>
 
@@ -413,24 +402,26 @@
             {v1: "lose", v2: "lost", he: "הפסיד"}
         ];
 
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+            document.getElementById('hamburger').classList.toggle('open');
+        }
+
         function showSection(id) {
             document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active-nav'));
             
             document.getElementById(id).classList.add('active');
-            document.getElementById('link-' + id).classList.add('active-nav');
+            const link = document.getElementById('link-' + id);
+            if(link) link.classList.add('active-nav');
             
             if(id === 'vocab') { renderVocab(); nextFlashcard(); }
             if(id === 'grammar') renderIrregulars();
             
-            toggleMenu(true); // Close mobile menu
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('show');
+            document.getElementById('hamburger').classList.remove('open');
             window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function toggleMenu(forceClose = false) { 
-            const links = document.getElementById('navLinks');
-            if(forceClose) links.classList.remove('show');
-            else links.classList.toggle('show');
         }
 
         function renderVocab() {
@@ -453,57 +444,67 @@
             t.style.display = t.style.display === 'none' ? 'block' : 'none';
         }
 
+        function checkUnseenPractice() {
+            const input = document.getElementById('unseenPracticeInput').value.toLowerCase().trim();
+            const fb = document.getElementById('unseenPracticeFeedback');
+            fb.style.display = "block";
+            if (input.includes('teacher')) {
+                fb.className = "feedback-box feedback-success";
+                fb.innerHTML = "<b>מעולה! ✔</b><br>היא פנתה למורה שלה (Teacher).";
+            } else {
+                fb.className = "feedback-box feedback-warning";
+                fb.innerHTML = "<b>נסה שוב ✘</b><br>חפש בטקסט את המילה 'spoke'.";
+            }
+        }
+
+        function checkWriting() {
+            const fb = document.getElementById('writingFeedback');
+            fb.style.display = "block";
+            fb.className = "feedback-box feedback-success";
+            fb.innerText = "הטקסט נשמר במערכת. וודא שהשתמשת בלפחות 4 פעלים מהרשימה החריגה!";
+        }
+
         function gradeFullTest() {
             let score = 0;
-            let feedbackHtml = "<h3>דו\"ח ביצועים מפורט:</h3>";
+            let report = "";
 
-            const validate = (id, correct, pts) => {
+            const check = (id, correct, pts, name) => {
                 const val = document.getElementById(id).value.toLowerCase().trim();
-                const ok = val.includes(correct.toLowerCase());
-                if(ok) {
+                if(val.includes(correct.toLowerCase())) {
                     score += pts;
-                    return `<div class="result-item result-correct">✔ נכון! (+${pts})</div>`;
+                    report += `<div class="result-item" style="color:#6ee7b7">✔ ${name}: נכון (+${pts})</div>`;
+                } else {
+                    report += `<div class="result-item" style="color:#fca5a5">✘ ${name}: טעות (נכון: ${correct})</div>`;
                 }
-                return `<div class="result-item result-wrong">✘ טעות. נכון היה: <b>${correct}</b></div>`;
             };
 
-            feedbackHtml += "<h4>אנסין:</h4>";
-            feedbackHtml += "1. " + validate('mq1', 'literature', 10);
-            feedbackHtml += "2. " + validate('mq2', 'busy', 10);
-            feedbackHtml += "3. " + validate('mq3', 'positive', 10);
+            report += "<h4>חלק 1: אנסין</h4>";
+            check('mq1', 'literature', 10, "שאלה 1");
+            check('mq2', 'busy', 10, "שאלה 2");
+            check('mq3', 'positive', 10, "שאלה 3");
 
-            feedbackHtml += "<h4>אוצר מילים:</h4>";
-            feedbackHtml += "1. " + validate('mv1', 'חיוני', 4);
-            feedbackHtml += "2. " + validate('mv2', 'לנשום', 4);
-            feedbackHtml += "3. " + validate('mv3', 'למרות', 4);
-            feedbackHtml += "4. " + validate('mv4', 'assume', 4);
-            feedbackHtml += "5. " + validate('mv5', 'secret', 4);
+            report += "<h4>חלק 2: אוצר מילים</h4>";
+            check('mv1', 'חיוני', 4, "Essential");
+            check('mv2', 'לנשום', 4, "Breathe");
+            check('mv3', 'assume', 4, "להניח");
+            check('mv4', 'secret', 4, "סוד");
+            check('mv5', 'למרות', 4, "Despite");
 
-            feedbackHtml += "<h4>דקדוק:</h4>";
-            feedbackHtml += "1. " + validate('mg1', 'saw', 5);
-            feedbackHtml += "2. " + validate('mg2', 'won', 5);
-            feedbackHtml += "3. " + validate('mg3', 'studied', 5);
-            feedbackHtml += "4. " + validate('mg4', 'went', 5);
-            feedbackHtml += "5. " + validate('mg5', 'stopped', 5);
+            report += "<h4>חלק 3: דקדוק</h4>";
+            check('mg1', 'saw', 5, "See");
+            check('mg2', 'won', 5, "Win");
+            check('mg3', 'studied', 5, "Study");
+            check('mg4', 'went', 5, "Go");
+            check('mg5', 'stopped', 5, "Stop");
 
-            const wText = document.getElementById('mtWriting').value.trim();
-            const words = wText.split(/\s+/).filter(x => x).length;
-            feedbackHtml += "<h4>כתיבה:</h4>";
-            if(words >= 40) { score += 25; feedbackHtml += `<div class="result-item result-correct">✔ כתיבה מעולה (${words} מילים)</div>`; }
-            else { score += 10; feedbackHtml += `<div class="result-item result-wrong">הטקסט קצר מדי (${words} מילים).</div>`; }
+            const writingText = document.getElementById('mtWriting').value.trim();
+            if(writingText.split(' ').length > 40) score += 25;
 
             const res = document.getElementById('finalTestFeedback');
             res.style.display = "block";
             res.className = `feedback-box ${score >= 70 ? 'feedback-success' : 'feedback-warning'}`;
-            res.innerHTML = `<h2>הציון שלך: ${score}/100</h2><hr>` + feedbackHtml;
+            res.innerHTML = `<h2>ציון סופי: ${score}/100</h2><hr>` + report;
             res.scrollIntoView({behavior: 'smooth'});
-        }
-
-        function checkWriting(id, fid) {
-            const fb = document.getElementById(fid);
-            fb.style.display = "block";
-            fb.className = "feedback-box feedback-success";
-            fb.innerText = "הטקסט נשמר במערכת לבדיקה עצמית. וודא שהשתמשת בפעלים בצורת העבר!";
         }
 
         window.onload = () => { renderIrregulars(); renderVocab(); };
