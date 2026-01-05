@@ -167,20 +167,62 @@
         }
         .writing-area { min-height: 150px; }
 
-        /* Flashcards */
-        #flashcard {
-            min-height: 200px;
+        /* Flashcards with 3D Flip */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 1.5rem;
+        }
+
+        .flip-card-front {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 25px;
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
+            color: white;
         }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, var(--accent-turquoise) 0%, #0d9488 100%);
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .flashcard-title { font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.1; }
+        .flashcard-subtitle { font-size: 1.5rem; opacity: 0.9; }
+        .tap-hint { font-size: 0.9rem; opacity: 0.6; margin-top: 1rem; font-weight: 300; }
+
 
         /* Unseen Text Box */
         .unseen-box { 
@@ -243,6 +285,8 @@
     <!-- Grammar Section -->
     <section id="grammar">
         <h2>Past Simple - עבר פשוט</h2>
+        
+        <!-- Rules Moved UP as requested -->
         <div class="card">
             <h3>חוקי הוספת ED</h3>
             <p>1. <b>הכלל הרגיל:</b> מוסיפים <b>ed</b> (למשל: walked).</p>
@@ -252,7 +296,26 @@
         </div>
 
         <div class="card">
-            <h3>Irregular Verbs (V2) - פעלים חריגים</h3>
+            <h3>תרגול פעלים חריגים (Flashcards)</h3>
+            <p style="text-align: center;">לחץ על הכרטיס כדי לראות את צורת העבר והתרגום</p>
+            
+            <div class="flip-card" onclick="this.classList.toggle('flipped')" id="grammarFlipCard">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="flashcard-title" id="grammarCardBase">Go</div>
+                        <div class="tap-hint">Tap to flip</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="flashcard-title" id="grammarCardPast">Went</div>
+                        <div class="flashcard-subtitle" id="grammarCardHeb">הלך</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="nextGrammarCard()">פועל הבא (Next Verb)</button>
+        </div>
+
+        <div class="card">
+            <h3>טבלת פעלים מלאה (Table)</h3>
             <div class="table-container">
                 <table>
                     <thead><tr><th>Base Form</th><th>Past Simple</th><th>Hebrew</th></tr></thead>
@@ -264,14 +327,23 @@
 
     <!-- Vocabulary Section -->
     <section id="vocab">
-        <h2>Flashcards - כרטיסיות</h2>
-        <div id="flashcard" onclick="toggleTranslation()">
-            <h1 id="vocabWord">...</h1>
-            <p id="vocabTranslation" style="display: none;">...</p>
+        <h2>Vocabulary Flashcards</h2>
+        <div class="card" style="background: transparent; box-shadow: none; border: none; padding: 0;">
+            <div class="flip-card" onclick="this.classList.toggle('flipped')" id="vocabFlipCard">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="flashcard-title" id="vocabCardEn">...</div>
+                        <div class="tap-hint">Tap to see translation</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="flashcard-title" id="vocabCardHe">...</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="nextVocabCard()">מילה הבאה</button>
         </div>
-        <button class="btn btn-primary" onclick="nextFlashcard()">מילה הבאה</button>
         
-        <div class="card" style="margin-top: 2rem;">
+        <div class="card" style="margin-top: 1rem;">
             <h3>רשימת מילים מלאה</h3>
             <div class="table-container">
                 <table class="dictionary-table">
@@ -307,36 +379,38 @@
             <h3>משימה: יום מיוחד</h3>
             <p>כתוב 60-80 מילים על חוויה מיוחדת שהייתה לך. השתמש ב-4 פעלים לפחות בזמן עבר (V2).</p>
             <textarea id="writingPractice" class="writing-area" placeholder="Write your story here..."></textarea>
-            <button class="btn btn-primary" onclick="checkWriting()">שלח לבדיקה</button>
+            <button class="btn btn-primary" onclick="checkWriting()">בדוק דיוק, דקדוק ומילים</button>
             <div id="writingFeedback" class="feedback-box"></div>
         </div>
     </section>
 
-    <!-- FULL MOCK TEST -->
+    <!-- FULL MOCK TEST (Updated Weights) -->
     <section id="mock-test">
         <h1 style="text-align: center;">מבחן מלא - Final Mock Exam</h1>
         
         <div class="card">
-            <div class="test-part-header"><h3>Part 1: Reading Comprehension (30 pts)</h3></div>
+            <!-- 3 questions * 15 pts = 45 pts -->
+            <div class="test-part-header"><h3>Part 1: Reading Comprehension (45 pts)</h3></div>
             <div class="unseen-box">
                 David is a student who loves <b>literature</b>. Last week, he <b>spoke</b> to his friend about a <b>secret</b> book. He <b>assumed</b> his friend would like it, but his friend <b>refused</b> to read it because he was busy. <b>Despite</b> this, David <b>convinced</b> him that the book provides a great <b>experience</b>. David <b>offered</b> to give him the book for free. <b>Somehow</b>, his friend changed his mind and <b>read</b> it. He felt <b>positive</b> about the story.
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="direction: ltr; text-align: left;">1. What does David love? (10 pts)</p>
+                <p style="direction: ltr; text-align: left;">1. What does David love? (15 pts)</p>
                 <input type="text" id="mq1" class="unseen-input">
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="direction: ltr; text-align: left;">2. Why did the friend say NO at first? (10 pts)</p>
+                <p style="direction: ltr; text-align: left;">2. Why did the friend say NO at first? (15 pts)</p>
                 <input type="text" id="mq2" class="unseen-input">
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="direction: ltr; text-align: left;">3. How did the story make the friend feel? (10 pts)</p>
+                <p style="direction: ltr; text-align: left;">3. How did the story make the friend feel? (15 pts)</p>
                 <input type="text" id="mq3" class="unseen-input">
             </div>
         </div>
 
         <div class="card">
-            <div class="test-part-header"><h3>Part 2: Vocabulary (20 pts)</h3></div>
+            <!-- 5 questions * 3 pts = 15 pts -->
+            <div class="test-part-header"><h3>Part 2: Vocabulary (15 pts)</h3></div>
             <p>1. Essential (תרגם לעברית): <input type="text" id="mv1" class="unseen-input"></p>
             <p>2. Breathe (תרגם לעברית): <input type="text" id="mv2" class="unseen-input"></p>
             <p>3. להניח (תרגם לאנגלית): <input type="text" id="mv3" class="unseen-input"></p>
@@ -345,7 +419,8 @@
         </div>
 
         <div class="card">
-            <div class="test-part-header"><h3>Part 3: Grammar (25 pts)</h3></div>
+            <!-- 5 questions * 4 pts = 20 pts -->
+            <div class="test-part-header"><h3>Part 3: Grammar (20 pts)</h3></div>
             <p>1. I (see) <input type="text" id="mg1" class="unseen-input" style="width: 150px; display: inline-block;"> a big dog yesterday.</p>
             <p>2. They (win) <input type="text" id="mg2" class="unseen-input" style="width: 150px; display: inline-block;"> the match last night.</p>
             <p>3. She (study) <input type="text" id="mg3" class="unseen-input" style="width: 150px; display: inline-block;"> hard for the test.</p>
@@ -354,11 +429,13 @@
         </div>
 
         <div class="card">
-            <div class="test-part-header"><h3>Part 4: Writing (25 pts)</h3></div>
+            <!-- 20 pts -->
+            <div class="test-part-header"><h3>Part 4: Writing (20 pts)</h3></div>
             <p>Write about a trip you took (50-70 words). Use at least 3 V2 verbs.</p>
             <textarea id="mtWriting" class="writing-area"></textarea>
         </div>
 
+        <!-- Total = 45 + 15 + 20 + 20 = 100 -->
         <button class="btn btn-accent" style="height: 60px;" onclick="gradeFullTest()">סיים וחשב ציון מלא</button>
         <div id="finalTestFeedback" class="feedback-box"></div>
     </section>
@@ -366,14 +443,14 @@
     <script>
         const vocabulary = [
             {en: "breathe", he: "לנשום"}, {en: "invent", he: "להמציא"},
-            {en: "sense", he: "חוש"}, {en: "literature", he: "ספרות"},
+            {en: "sense", he: "חוש/לחוש"}, {en: "literature", he: "ספרות"},
             {en: "essential", he: "חיוני"}, {en: "fee", he: "תשלום"},
-            {en: "assume", he: "להניח"}, {en: "refuse", he: "לסרב"},
+            {en: "assume", he: "להניח"}, {en: "refuse", he: "לסרב/להתנגד"},
             {en: "convince", he: "לשכנע"}, {en: "secret", he: "סוד"},
             {en: "bill", he: "חשבון"}, {en: "design", he: "לעצב"},
             {en: "positive", he: "חיובי"}, {en: "tear", he: "דמעה"},
-            {en: "plenty of", he: "הרבה מ"}, {en: "experience", he: "חוויה"},
-            {en: "advertisement", he: "פרסומת"}, {en: "congratulations", he: "ברכות"},
+            {en: "plenty of", he: "הרבה מ"}, {en: "experience", he: "חוויה/ניסיון"},
+            {en: "advertisement", he: "פרסומת"}, {en: "congratulations", he: "מזל טוב"},
             {en: "despite", he: "למרות"}, {en: "offer", he: "להציע"},
             {en: "clear", he: "ברור"}, {en: "somehow", he: "איכשהו"}
         ];
@@ -415,8 +492,8 @@
             const link = document.getElementById('link-' + id);
             if(link) link.classList.add('active-nav');
             
-            if(id === 'vocab') { renderVocab(); nextFlashcard(); }
-            if(id === 'grammar') renderIrregulars();
+            if(id === 'vocab') { renderVocab(); nextVocabCard(); }
+            if(id === 'grammar') { renderIrregulars(); nextGrammarCard(); }
             
             // Close mobile menu
             document.getElementById('navLinks').classList.remove('show');
@@ -432,16 +509,31 @@
             document.getElementById('grammarIrregulars').innerHTML = irregulars.map(i => `<tr><td>${i.v1}</td><td><b style="color:var(--accent-turquoise)">${i.v2}</b></td><td>${i.he}</td></tr>`).join('');
         }
 
-        let currentFlash = 0;
-        function nextFlashcard() {
-            currentFlash = Math.floor(Math.random() * vocabulary.length);
-            document.getElementById('vocabWord').innerText = vocabulary[currentFlash].en;
-            document.getElementById('vocabTranslation').innerText = vocabulary[currentFlash].he;
-            document.getElementById('vocabTranslation').style.display = 'none';
+        // Logic for Vocab Flashcards
+        function nextVocabCard() {
+            const card = document.getElementById('vocabFlipCard');
+            // Remove flip class to show front
+            card.classList.remove('flipped');
+            
+            // Wait slight delay to change content so user doesn't see change while flipping back
+            setTimeout(() => {
+                const rand = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                document.getElementById('vocabCardEn').innerText = rand.en;
+                document.getElementById('vocabCardHe').innerText = rand.he;
+            }, 200);
         }
-        function toggleTranslation() {
-            const t = document.getElementById('vocabTranslation');
-            t.style.display = t.style.display === 'none' ? 'block' : 'none';
+
+        // Logic for Grammar Flashcards (Irregular Verbs)
+        function nextGrammarCard() {
+            const card = document.getElementById('grammarFlipCard');
+            card.classList.remove('flipped');
+            
+            setTimeout(() => {
+                const rand = irregulars[Math.floor(Math.random() * irregulars.length)];
+                document.getElementById('grammarCardBase').innerText = rand.v1;
+                document.getElementById('grammarCardPast').innerText = rand.v2;
+                document.getElementById('grammarCardHeb').innerText = rand.he;
+            }, 200);
         }
 
         function checkUnseenPractice() {
@@ -458,10 +550,36 @@
         }
 
         function checkWriting() {
+            const text = document.getElementById('writingPractice').value.toLowerCase();
             const fb = document.getElementById('writingFeedback');
+            
+            const irregularForms = irregulars.map(i => i.v2).join('|');
+            const pastRegex = new RegExp(`\\b(${irregularForms}|was|were|had|did)\\b|\\w+ed\\b`, 'gi');
+            
+            const pastVerbs = text.match(pastRegex) || [];
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            
             fb.style.display = "block";
-            fb.className = "feedback-box feedback-success";
-            fb.innerText = "הטקסט נשמר במערכת. וודא שהשתמשת בלפחות 4 פעלים מהרשימה החריגה!";
+            
+            let message = "";
+            let isGood = true;
+
+            if(words < 40) {
+                message += `<div class="result-item" style="color:#fca5a5">✘ הטקסט קצר מדי (${words} מילים). מומלץ: 60-80 מילים.</div>`;
+                isGood = false;
+            } else {
+                message += `<div class="result-item" style="color:#6ee7b7">✔ אורך טקסט מצוין (${words} מילים).</div>`;
+            }
+
+            if (pastVerbs.length < 4) {
+                message += `<div class="result-item" style="color:#fca5a5">✘ נמצאו רק ${pastVerbs.length} פעלים בעבר. נסה להשתמש ביותר (כמו went, saw, played).</div>`;
+                isGood = false;
+            } else {
+                message += `<div class="result-item" style="color:#6ee7b7">✔ שימוש יפה בזמן עבר (${pastVerbs.length} פעלים).</div>`;
+            }
+
+            fb.innerHTML = message;
+            fb.className = isGood ? "feedback-box feedback-success" : "feedback-box feedback-warning";
         }
 
         function gradeFullTest() {
@@ -478,27 +596,39 @@
                 }
             };
 
-            report += "<h4>חלק 1: אנסין</h4>";
-            check('mq1', 'literature', 10, "שאלה 1");
-            check('mq2', 'busy', 10, "שאלה 2");
-            check('mq3', 'positive', 10, "שאלה 3");
+            // Part 1: Unseen (15 pts each)
+            report += "<h4>חלק 1: אנסין (45 נק')</h4>";
+            check('mq1', 'literature', 15, "שאלה 1");
+            check('mq2', 'busy', 15, "שאלה 2");
+            check('mq3', 'positive', 15, "שאלה 3");
 
-            report += "<h4>חלק 2: אוצר מילים</h4>";
-            check('mv1', 'חיוני', 4, "Essential");
-            check('mv2', 'לנשום', 4, "Breathe");
-            check('mv3', 'assume', 4, "להניח");
-            check('mv4', 'secret', 4, "סוד");
-            check('mv5', 'למרות', 4, "Despite");
+            // Part 2: Vocab (3 pts each)
+            report += "<h4>חלק 2: אוצר מילים (15 נק')</h4>";
+            check('mv1', 'חיוני', 3, "Essential");
+            check('mv2', 'לנשום', 3, "Breathe");
+            check('mv3', 'assume', 3, "להניח");
+            check('mv4', 'secret', 3, "סוד");
+            check('mv5', 'למרות', 3, "Despite");
 
-            report += "<h4>חלק 3: דקדוק</h4>";
-            check('mg1', 'saw', 5, "See");
-            check('mg2', 'won', 5, "Win");
-            check('mg3', 'studied', 5, "Study");
-            check('mg4', 'went', 5, "Go");
-            check('mg5', 'stopped', 5, "Stop");
+            // Part 3: Grammar (4 pts each)
+            report += "<h4>חלק 3: דקדוק (20 נק')</h4>";
+            check('mg1', 'saw', 4, "See");
+            check('mg2', 'won', 4, "Win");
+            check('mg3', 'studied', 4, "Study");
+            check('mg4', 'went', 4, "Go");
+            check('mg5', 'stopped', 4, "Stop");
 
+            // Part 4: Writing (20 pts)
             const writingText = document.getElementById('mtWriting').value.trim();
-            if(writingText.split(' ').length > 40) score += 25;
+            const words = writingText.split(/\s+/).filter(w => w.length > 0).length;
+            report += "<h4>חלק 4: כתיבה (20 נק')</h4>";
+            
+            if(words >= 40) { 
+                score += 20; 
+                report += `<div class="result-item" style="color:#6ee7b7">✔ כתיבה מעולה (+20)</div>`;
+            } else {
+                report += `<div class="result-item" style="color:#fca5a5">✘ הטקסט קצר מדי (0)</div>`;
+            }
 
             const res = document.getElementById('finalTestFeedback');
             res.style.display = "block";
